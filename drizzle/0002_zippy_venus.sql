@@ -1,0 +1,1 @@
+ALTER TABLE "files" ALTER COLUMN "processed_at" SET DATA TYPE timestamp;
