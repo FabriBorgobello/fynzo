@@ -1,12 +1,29 @@
+import { serve } from "@hono/node-server";
 import { Job, Worker } from "bullmq";
+import { Hono } from "hono";
 
-import { env } from "@/env/worker";
+import { env } from "@/env/server";
 import { logger } from "@/lib/logger";
 import { chunkTextByTokens } from "@/services/ai/rag/chunker";
 import { findFileByEtag, insertChunks, insertFileRecord, markFileAsProcessed } from "@/services/ai/rag/db";
 import { embedChunks } from "@/services/ai/rag/embedder";
 import { parseFileByExtension } from "@/services/ai/rag/parser";
 import { s3 } from "@/services/s3/minio";
+
+// Create health check server
+const app = new Hono();
+app.get("/health", (c) => c.text("ok"));
+
+// Start health check server
+serve(
+  {
+    fetch: app.fetch,
+    port: 3000,
+  },
+  (info) => {
+    logger.milestone(`Health check server running on port ${info.port}`);
+  },
+);
 
 type IngestionJob = {
   fileKey: string;

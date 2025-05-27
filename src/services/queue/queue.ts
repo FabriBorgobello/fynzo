@@ -1,6 +1,6 @@
 import { Job, Queue } from "bullmq";
 
-import { env } from "@/env/worker";
+import { env } from "@/env/server";
 
 type IngestionJob = {
   fileKey: string;
