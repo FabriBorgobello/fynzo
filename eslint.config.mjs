@@ -34,10 +34,7 @@ const eslintConfig = [
       ],
       "simple-import-sort/exports": "error",
       ...drizzle.configs.recommended.rules,
-      "drizzle/enforce-delete-with-where": [
-        "error",
-        { drizzleObjectName: ["db"] },
-      ],
+      "drizzle/enforce-delete-with-where": ["error", { drizzleObjectName: ["db"] }],
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
