@@ -22,5 +22,13 @@ COPY src/services/s3 ./src/services/s3
 COPY src/lib ./src/lib
 COPY src/db ./src/db
 
+# Create healthcheck script
+RUN echo '#!/bin/sh\nredis-cli -u $REDIS_URL ping > /dev/null 2>&1' > /app/healthcheck.sh && \
+    chmod +x /app/healthcheck.sh
+
+# Set healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD /app/healthcheck.sh
+
 # Set the command to run the worker
 CMD ["pnpm", "queue:worker"] 
