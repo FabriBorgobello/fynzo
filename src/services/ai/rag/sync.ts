@@ -1,5 +1,5 @@
 import { logger } from "@/lib/logger";
-import { enqueueFileForIngestion, hasPendingJobs } from "@/services/queue/queue";
+import { enqueueFileForIngestion, hasPendingJobs } from "@/services/queue";
 import { s3 } from "@/services/s3/minio";
 
 import { deleteFile, findFileByEtag, getAllFiles } from "./db";
