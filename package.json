@@ -41,7 +41,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
     "@tailwindcss/postcss": "^4.1.7",
-    "@types/node": "^22.15.21",
+    "@types/node": "^22.15.22",
     "@types/pdf-parse": "^1.1.5",
     "@types/pg": "^8.15.2",
     "@types/react": "^19.1.6",
@@ -56,14 +56,14 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.7",
     "knip": "^5.58.1",
-    "lint-staged": "^16.0.0",
+    "lint-staged": "^16.1.0",
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^4.1.7",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.11.0",
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix"
