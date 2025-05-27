@@ -85,6 +85,10 @@ const worker = new Worker<IngestionJob>(
   { connection: { url: env.REDIS_URL } },
 );
 
+worker.on("ready", () => {
+  logger.milestone("Worker ready");
+});
+
 worker.on("completed", (job) => {
   logger.milestone(`Worker completed job ${job.id}: ${job.name}`);
 });
