@@ -15,7 +15,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "rag:sync": "dotenv -e .env -- tsx src/services/ai/rag/sync.ts",
-    "queue:worker": "dotenv -e .env -- tsx src/services/queue/worker.ts"
+    "queue:worker": "tsx src/services/queue/worker.ts"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.3.22",

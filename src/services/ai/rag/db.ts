@@ -1,7 +1,7 @@
 import { eq, sql } from "drizzle-orm";
 
 import { db } from "@/db";
-import { chunks } from "@/db/schema/chunks";
+import { chunks } from "@/db//schema/chunks";
 import { files } from "@/db/schema/files";
 
 export async function insertFileRecord(name: string, etag: string) {

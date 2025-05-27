@@ -1,6 +1,6 @@
 import { Job, Worker } from "bullmq";
 
-import { env } from "@/env/server";
+import { env } from "@/env/worker";
 import { logger } from "@/lib/logger";
 import { chunkTextByTokens } from "@/services/ai/rag/chunker";
 import { findFileByEtag, insertChunks, insertFileRecord, markFileAsProcessed } from "@/services/ai/rag/db";
