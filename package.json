@@ -9,7 +9,7 @@
     "lint": "next lint",
     "prepare": "husky",
     "knip": "dotenv -e .env -- knip",
-    "preinstall": "npx only-allow pnpm",
+    "preinstall": "npx only-allow npm",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
@@ -64,7 +64,7 @@
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   },
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "npm@11.4.1",
   "lint-staged": {
     "*.{ts,tsx}": [
       "eslint --fix"
