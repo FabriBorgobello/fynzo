@@ -17,6 +17,9 @@ importers:
       '@bull-board/hono':
         specifier: ^6.9.6
         version: 6.9.6
+      '@bull-board/ui':
+        specifier: ^6.9.6
+        version: 6.9.6
       '@dqbd/tiktoken':
         specifier: ^1.0.21
         version: 1.0.21
