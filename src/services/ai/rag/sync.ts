@@ -4,7 +4,7 @@ import { s3 } from "@/services/s3/minio";
 
 import { deleteFile, findFileByEtag, getAllFiles } from "./db";
 
-const PREFIX = "rag-tax";
+const PREFIX = "rag-docs";
 
 /**
  * Synchronizes the RAG system with the MinIO bucket:
