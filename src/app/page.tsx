@@ -87,9 +87,6 @@ export default function FynzoWaitlist() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <Input
                 type="email"
-                autoComplete="email"
-                autoFocus
-                autoCapitalize="off"
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 placeholder="tu@email.com"
                 value={email}
