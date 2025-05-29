@@ -18,7 +18,7 @@ interface TaxAgentChatProps {
 }
 
 export function TaxAgentChat({ dict }: TaxAgentChatProps) {
-  const { messages, input, handleInputChange, handleSubmit, status, append } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, status, append, addToolResult } = useChat({
     api: "/api/chat",
     onToolCall: async ({ toolCall }) => {
       console.log(toolCall);
@@ -58,7 +58,7 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
   ];
 
   return (
-    <Card className="w-full rounded-lg border">
+    <Card className="w-full rounded-lg border p-0">
       <div className="flex h-[600px] flex-col">
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-6">
@@ -82,7 +82,20 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
         ) : (
           <div className="flex-1 overflow-auto p-4">
             {messages.map((message, index) => (
-              <ChatMessage key={index} message={message} />
+              <ChatMessage
+                key={index}
+                message={message}
+                onMsg={(msg) => {
+                  switch (msg.type) {
+                    case "onComunidadAutonomaChange":
+                      addToolResult({
+                        toolCallId: msg.toolCallId,
+                        result: msg.value,
+                      });
+                      break;
+                  }
+                }}
+              />
             ))}
             <div
               ref={(el) => {

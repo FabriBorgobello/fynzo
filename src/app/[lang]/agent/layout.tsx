@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 // import { Geist_Mono, Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 
+import Providers from "@/app/providers";
 import { Navbar } from "@/components/navbar";
 import { TailwindWidget } from "@/components/tailwind-widget";
-import { ThemeProvider } from "@/components/theme-provider";
 import { Locale } from "@/dictionaries";
 import { env } from "@/env/server";
 import { cn } from "@/lib/utils";
@@ -43,12 +43,12 @@ export default async function RootLayout({
           "text-foreground flex min-h-screen flex-col overflow-auto font-sans antialiased",
         )}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <Providers>
           <Navbar lang={lang} />
           {children}
           {env.NEXT_PUBLIC_ENVIRONMENT && <TailwindWidget position="right" />}
           <Toaster />
-        </ThemeProvider>
+        </Providers>
       </body>
     </html>
   );

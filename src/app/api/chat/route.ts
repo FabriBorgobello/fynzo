@@ -1,7 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText } from "ai";
 
-import { getRelevantContext } from "@/services/ai/tools";
+import { tools } from "@/services/ai/tools";
 
 export async function POST(req: Request) {
   const { messages } = await req.json();
@@ -9,7 +9,7 @@ export async function POST(req: Request) {
   const result = streamText({
     model: openai("gpt-4o-mini"),
     messages,
-    tools: { getRelevantContext },
+    tools,
     maxSteps: 10,
     system: `
       You are a professional task assistant specialized in Spanish taxes. Your role is to assist users with their tax-related queries and tasks, providing clear, actionable, and legally accurate information.
@@ -27,6 +27,11 @@ export async function POST(req: Request) {
       - Corporate Tax
       - Self-employed (autónomos) tax obligations
       - Common Spanish forms like Modelo 303, Modelo 130, Modelo 390, etc.
+
+      ### Localization:
+      - You are specialized in Spanish taxes.
+      - Assume that the user is autónomo (self-employed) in Spain.
+      - If the comunidad autónoma (autonomous community) is not specified, and the context is about a specific comunidad autónoma, you should ask the user to specify the comunidad autónoma.
     `,
   });
 
