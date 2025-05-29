@@ -45,7 +45,7 @@ export default async function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <Navbar lang={lang} />
-          <div className="h-screen pt-20">{children}</div>
+          {children}
           {env.NEXT_PUBLIC_ENVIRONMENT && <TailwindWidget position="right" />}
           <Toaster />
         </ThemeProvider>
