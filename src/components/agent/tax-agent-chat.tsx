@@ -20,15 +20,11 @@ interface TaxAgentChatProps {
 export function TaxAgentChat({ dict }: TaxAgentChatProps) {
   const { messages, input, handleInputChange, handleSubmit, status, append } = useChat({
     api: "/api/chat",
+    onToolCall: async ({ toolCall }) => {
+      console.log(toolCall);
+    },
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Console log tool calls
-  console.log(
-    messages
-      .filter((m) => m.role === "assistant")
-      .map((m) => m.parts.map((p) => p.type === "tool-invocation" && p.toolInvocation)),
-  );
 
   const handleQuickAction = (message: string) => {
     append({
