@@ -1,0 +1,104 @@
+{
+  "navbar": {
+    "home": "Home",
+    "invoices": "Invoices",
+    "expenses": "Expenses",
+    "agent": "Agent",
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "new": "New"
+  },
+  "invoices": {
+    "title": "Invoices",
+    "description": "Manage and track your invoices",
+    "export": "Export",
+    "newInvoice": "New Invoice",
+    "searchPlaceholder": "Search invoices...",
+    "status": "Status",
+    "date": "Date",
+    "recipient": "Recipient",
+    "invoiceNumber": "Invoice Number",
+    "amount": "Amount",
+    "noInvoicesFound": "No invoices found.",
+    "showing": "Showing",
+    "of": "of",
+    "invoicesLower": "invoices",
+    "previous": "Previous",
+    "next": "Next",
+    "actions": "Actions",
+    "download": "Download",
+    "print": "Print",
+    "email": "Email",
+    "delete": "Delete",
+    "statuses": {
+      "paid": "Paid",
+      "pending": "Pending",
+      "overdue": "Overdue",
+      "all": "All"
+    }
+  },
+  "expenses": {
+    "title": "Expenses",
+    "description": "Manage and track your expenses",
+    "export": "Export",
+    "newExpense": "New Expense",
+    "searchPlaceholder": "Search expenses...",
+    "category": "Category",
+    "status": "Status",
+    "date": "Date",
+    "merchant": "Merchant",
+    "expenseId": "Expense ID",
+    "amount": "Amount",
+    "noExpensesFound": "No expenses found.",
+    "showing": "Showing",
+    "of": "of",
+    "expensesLower": "expenses",
+    "previous": "Previous",
+    "next": "Next",
+    "actions": "Actions",
+    "viewReceipt": "View Receipt",
+    "download": "Download",
+    "email": "Email",
+    "changeCategory": "Change Category",
+    "delete": "Delete",
+    "categories": {
+      "all": "All",
+      "travel": "Travel",
+      "office": "Office",
+      "meals": "Meals",
+      "supplies": "Supplies",
+      "other": "Other"
+    },
+    "statuses": {
+      "all": "All",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    }
+  },
+  "agent": {
+    "title": "Tax Agent",
+    "description": "Your AI-powered tax expert. Ask questions, upload documents, and get the tax help you need.",
+    "welcome": "Welcome to Tax Agent",
+    "welcomeDescription": "Ask any tax-related question or choose from the quick actions below.",
+    "inputPlaceholder": "Ask a tax question...",
+    "quickActions": {
+      "taxDeductions": {
+        "title": "Tax Deductions",
+        "description": "What tax deductions am I eligible for?"
+      },
+      "filingStatus": {
+        "title": "Filing Status",
+        "description": "Which filing status should I choose?"
+      },
+      "taxCredits": {
+        "title": "Tax Credits",
+        "description": "What tax credits can I claim?"
+      },
+      "deadline": {
+        "title": "Deadline",
+        "description": "When is the tax filing deadline this year?"
+      }
+    }
+  }
+}
