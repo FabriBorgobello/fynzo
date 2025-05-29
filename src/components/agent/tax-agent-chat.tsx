@@ -23,6 +23,13 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  // Console log tool calls
+  console.log(
+    messages
+      .filter((m) => m.role === "assistant")
+      .map((m) => m.parts.map((p) => p.type === "tool-invocation" && p.toolInvocation)),
+  );
+
   const handleQuickAction = (message: string) => {
     append({
       role: "user",

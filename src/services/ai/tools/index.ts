@@ -1,25 +1,29 @@
-import { tool } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { embed, tool } from "ai";
+import { cosineDistance, desc, gt, sql } from "drizzle-orm";
 import { z } from "zod";
 
-export const getTaxDomicileForm = tool({
-  description:
-    "Get the form 030. Useful when the user wants to change their tax address. The user will fill the form and send by themselves.",
-  parameters: z.object({}),
-  execute: async () => {
-    return {
-      form: "https://sede.agenciatributaria.gob.es/static_files/Sede/Procedimiento_ayuda/G321/mod030_es_es.pdf",
-    };
-  },
-});
+import { db } from "@/db";
+import { chunks } from "@/db/schema/chunks";
 
-export const presentTaxDomicileForm = tool({
-  description: "Present the form 030 in the name of the user. Useful when the user wants to change their tax address.",
-  parameters: z.object({ address: z.string().describe("The new tax address") }),
-  execute: async ({ address }) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    return {
-      message: `Successfully presented the form 030. The new tax address is ${address}.`,
-      receipt: "https://sede.agenciatributaria.gob.es/static_files/Sede/Procedimiento_ayuda/G321/mod030_es_es.pdf",
-    };
+export const getRelevantContext = tool({
+  description: `get information from your knowledge base to answer questions.`,
+  parameters: z.object({ question: z.string().describe("the users question") }),
+  execute: async ({ question }) => {
+    // 1. Embed the question
+    const { embedding } = await embed({
+      model: openai.embedding("text-embedding-3-small"),
+      value: question.replaceAll("\\n", " "),
+    });
+    // 2. Find the most relevant chunks
+    const similarity = sql<number>`1 - (${cosineDistance(chunks.embedding, embedding)})`;
+    const relevantChunks = await db
+      .select({ similarity, content: chunks.content })
+      .from(chunks)
+      .where(gt(similarity, 0.5))
+      .orderBy((t) => desc(t.similarity))
+      .limit(20);
+    // 3. Return the chunks
+    return { context: relevantChunks };
   },
 });

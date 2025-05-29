@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Montserrat } from "next/font/google";
+// import { Geist_Mono, Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 
 import { Navbar } from "@/components/navbar";
@@ -11,15 +11,15 @@ import { cn } from "@/lib/utils";
 
 import "../../globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
+// const montserrat = Montserrat({
+//   variable: "--font-montserrat",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title: "Fynzo",
@@ -38,8 +38,8 @@ export default async function RootLayout({
     <html lang={lang} suppressHydrationWarning>
       <body
         className={cn(
-          geistMono.variable,
-          montserrat.variable,
+          // geistMono.variable,
+          // montserrat.variable,
           "text-foreground flex min-h-screen flex-col overflow-auto font-sans antialiased",
         )}
       >
