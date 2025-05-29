@@ -21,7 +21,7 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
   const { messages, input, handleInputChange, handleSubmit, status, append, addToolResult } = useChat({
     api: "/api/chat",
     onToolCall: async ({ toolCall }) => {
-      console.log(toolCall);
+      console.log("[TOOL CALL]", toolCall);
     },
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);

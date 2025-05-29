@@ -3,8 +3,10 @@ import type { Message } from "ai";
 import { Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ToolResult } from "@/services/ai/tools/types";
 
 import { ComunidadesSelector, type ComunidadesSelectorMsg } from "./comunidades-selector";
+import { DocumentLinkCard } from "./document-link-card";
 import { MemoizedMarkdown } from "./memoized-markdown";
 
 interface ChatMessageProps {
@@ -14,7 +16,6 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message, onMsg }: ChatMessageProps) {
   const isUser = message.role === "user";
-
   return (
     <div className={cn("mb-4 flex items-start", isUser ? "justify-end" : "justify-start")}>
       {!isUser && (
@@ -27,20 +28,43 @@ export function ChatMessage({ message, onMsg }: ChatMessageProps) {
 
       <Card
         className={cn(
-          "prose dark:prose-invert max-w-[700px] rounded-xl px-4 py-3",
+          "prose dark:prose-invert w-full max-w-[700px] rounded-xl px-4 py-3",
           isUser ? "bg-primary text-primary-foreground" : "bg-muted",
         )}
       >
         {message.parts?.map((part) => {
           switch (part.type) {
             case "text":
-              return <MemoizedMarkdown key={message.id} content={message.content} id={message.id} />;
-
+              // DO NOT DISPLAY THE TEXT IF THE RESULT FROM getFormsLinks IS DISPLAYED
+              if (
+                message.parts?.some(
+                  (p) => p.type === "tool-invocation" && p.toolInvocation.toolName === "getFormsLinks",
+                )
+              ) {
+                return null;
+              }
+              //
+              return <MemoizedMarkdown key={part.text} content={part.text} id={message.id} />;
             case "tool-invocation":
               switch (part.toolInvocation.toolName) {
                 case "getComunidadAutonoma":
                   if (part.toolInvocation.state !== "call") return null;
-                  return <ComunidadesSelector key={message.id} part={part} onMsg={onMsg} />;
+                  return <ComunidadesSelector key={part.toolInvocation.toolCallId} part={part} onMsg={onMsg} />;
+
+                case "getFormsLinks":
+                  if (part.toolInvocation.state !== "result") return null;
+                  const result = part.toolInvocation.result as Extract<
+                    ToolResult,
+                    { toolName: "getFormsLinks" }
+                  >["result"];
+                  return (
+                    <div key={part.toolInvocation.toolCallId} className="flex w-full flex-col gap-2">
+                      {result.forms.map((form) => (
+                        <DocumentLinkCard key={form.code} form={form} />
+                      ))}
+                    </div>
+                  );
+
                 default:
                   return null;
               }
@@ -49,7 +73,6 @@ export function ChatMessage({ message, onMsg }: ChatMessageProps) {
             case "reasoning":
             case "file":
             case "step-start":
-              console.log(part);
               return null;
 
             default:
