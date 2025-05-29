@@ -45,18 +45,18 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
       icon: <FileText className="h-4 w-4" />,
     },
     {
-      title: dict.agent.quickActions.filingStatus.title,
-      description: dict.agent.quickActions.filingStatus.description,
+      title: dict.agent.quickActions.paymentDates.title,
+      description: dict.agent.quickActions.paymentDates.description,
       icon: <FileText className="h-4 w-4" />,
     },
     {
-      title: dict.agent.quickActions.taxCredits.title,
-      description: dict.agent.quickActions.taxCredits.description,
+      title: dict.agent.quickActions.vatPayment.title,
+      description: dict.agent.quickActions.vatPayment.description,
       icon: <FileText className="h-4 w-4" />,
     },
     {
-      title: dict.agent.quickActions.deadline.title,
-      description: dict.agent.quickActions.deadline.description,
+      title: dict.agent.quickActions.selfEmployedTaxes.title,
+      description: dict.agent.quickActions.selfEmployedTaxes.description,
       icon: <FileText className="h-4 w-4" />,
     },
   ];

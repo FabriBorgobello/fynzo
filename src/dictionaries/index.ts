@@ -96,15 +96,15 @@ export type Dictionary = {
         title: string;
         description: string;
       };
-      filingStatus: {
+      paymentDates: {
         title: string;
         description: string;
       };
-      taxCredits: {
+      vatPayment: {
         title: string;
         description: string;
       };
-      deadline: {
+      selfEmployedTaxes: {
         title: string;
         description: string;
       };

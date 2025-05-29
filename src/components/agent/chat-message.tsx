@@ -25,7 +25,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
 
       <Card
         className={cn(
-          "prose dark:prose-invert max-w-[80%] rounded-xl px-4 py-3",
+          "prose dark:prose-invert max-w-[700px] rounded-xl px-4 py-3",
           isUser ? "bg-primary text-primary-foreground" : "bg-muted",
         )}
       >

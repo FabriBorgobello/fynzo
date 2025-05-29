@@ -81,23 +81,23 @@
     "description": "Tu experto fiscal impulsado por IA. Haz preguntas, sube documentos y obtén la ayuda fiscal que necesitas.",
     "welcome": "Bienvenido al Agente Fiscal",
     "welcomeDescription": "Haz cualquier pregunta relacionada con impuestos o elige una de las acciones rápidas a continuación.",
-    "inputPlaceholder": "Haz una pregunta fiscal...",
+    "inputPlaceholder": "Haz una pregunta...",
     "quickActions": {
       "taxDeductions": {
         "title": "Deducciones Fiscales",
         "description": "¿A qué deducciones fiscales puedo optar?"
       },
-      "filingStatus": {
-        "title": "Estado de Declaración",
-        "description": "¿Qué estado de declaración debo elegir?"
+      "paymentDates": {
+        "title": "Fechas de Pago",
+        "description": "¿Cuándo se realizan los pagos de IRPF?"
       },
-      "taxCredits": {
-        "title": "Créditos Fiscales",
-        "description": "¿Qué créditos fiscales puedo reclamar?"
+      "vatPayment": {
+        "title": "Pago de IVA",
+        "description": "¿Cómo funciona el pago del IVA?"
       },
-      "deadline": {
-        "title": "Fecha Límite",
-        "description": "¿Cuál es la fecha límite para declarar impuestos este año?"
+      "selfEmployedTaxes": {
+        "title": "Impuestos para Autónomos",
+        "description": "¿Qué impuestos debo pagar si soy autónomo?"
       }
     }
   }

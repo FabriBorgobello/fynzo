@@ -81,23 +81,23 @@
     "description": "Your AI-powered tax expert. Ask questions, upload documents, and get the tax help you need.",
     "welcome": "Welcome to Tax Agent",
     "welcomeDescription": "Ask any tax-related question or choose from the quick actions below.",
-    "inputPlaceholder": "Ask a tax question...",
+    "inputPlaceholder": "Ask anything...",
     "quickActions": {
       "taxDeductions": {
         "title": "Tax Deductions",
         "description": "What tax deductions am I eligible for?"
       },
-      "filingStatus": {
-        "title": "Filing Status",
-        "description": "Which filing status should I choose?"
+      "paymentDates": {
+        "title": "Payment Dates",
+        "description": "When are the IRPF payments due?"
       },
-      "taxCredits": {
-        "title": "Tax Credits",
-        "description": "What tax credits can I claim?"
+      "vatPayment": {
+        "title": "VAT Payment",
+        "description": "How does VAT payment work?"
       },
-      "deadline": {
-        "title": "Deadline",
-        "description": "When is the tax filing deadline this year?"
+      "selfEmployedTaxes": {
+        "title": "Self-Employed Taxes",
+        "description": "What taxes do I need to pay if I'm self-employed?"
       }
     }
   }
