@@ -29,7 +29,7 @@ export function ChatMessage({ message, onMsg }: ChatMessageProps) {
       <Card
         className={cn(
           "prose dark:prose-invert w-full max-w-[700px] rounded-xl px-4 py-3",
-          isUser ? "bg-primary text-primary-foreground" : "bg-muted",
+          isUser ? "bg-[#155dfc]/20" : "bg-[#00a63e]/20",
         )}
       >
         {message.parts?.map((part) => {
