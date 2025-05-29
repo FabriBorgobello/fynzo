@@ -1,12 +1,17 @@
 import { FileText } from "lucide-react";
+import { motion } from "motion/react";
 
 import { Form } from "@/services/ai/tools/forms";
 
 export function DocumentLinkCard({ form }: { form: Form }) {
   return (
-    <div
+    <motion.div
       className="bg-card hover:border-foreground/25 hover:bg-card/50 group flex w-full cursor-pointer items-start gap-3 rounded-lg border p-4 transition-all duration-200 hover:shadow-md"
       onClick={() => window.open(form.link, "_blank")}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 10 }}
+      transition={{ duration: 0.2 }}
     >
       {/* Logo */}
       <div className="flex-shrink-0">
@@ -22,6 +27,6 @@ export function DocumentLinkCard({ form }: { form: Form }) {
         </h3>
         <p className="text-muted-foreground line-clamp-2 text-xs">{form.description}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }

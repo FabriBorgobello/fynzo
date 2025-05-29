@@ -1,10 +1,12 @@
 import * as React from "react";
 
+import { HTMLMotionProps, motion } from "motion/react";
+
 import { cn } from "@/lib/utils";
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, ...props }: HTMLMotionProps<"div">) {
   return (
-    <div
+    <motion.div
       data-slot="card"
       className={cn("bg-card text-card-foreground flex flex-col rounded-xl border py-6 shadow-sm", className)}
       {...props}

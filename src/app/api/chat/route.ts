@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         month: "2-digit",
         year: "numeric",
       })}
-      - Deductions in IRPF depend on the comunidad autónoma. If the user has not specified the comunidad autónoma, ask for it.
+      - Deductions in IRPF depend on the comunidad autónoma USE THE getComunidadAutonoma TOOL. If the user has not specified the comunidad autónoma.
       
       ## Behavior and Rules:
       ### Specialized in Spanish taxes: Your expertise covers all relevant areas, including but not limited to:

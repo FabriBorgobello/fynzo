@@ -52,7 +52,7 @@ export function ComunidadesSelector({
     <div className="flex flex-col gap-2">
       <p>{part.toolInvocation.args.question}</p>
       <Select onValueChange={(value) => onMsg({ type: "onComunidadAutonomaChange", toolCallId, value })}>
-        <SelectTrigger className="w-full">
+        <SelectTrigger className="text-primary w-full bg-white">
           <SelectValue placeholder="Selecciona una comunidad autónoma" />
         </SelectTrigger>
         <SelectContent>
