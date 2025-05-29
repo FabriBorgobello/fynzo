@@ -17,6 +17,7 @@
     "rag:sync": "dotenv -e .env -- tsx src/services/ai/rag/sync.ts"
   },
   "dependencies": {
+    "@ai-sdk/mistral": "^1.2.8",
     "@ai-sdk/openai": "^1.3.22",
     "@ai-sdk/react": "^1.2.12",
     "@ai-sdk/ui-utils": "^1.2.11",
@@ -43,6 +44,7 @@
     "pg": "^8.16.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-dropzone": "^14.3.8",
     "react-markdown": "^10.1.0",
     "server-only": "^0.0.1",
     "sonner": "^2.0.3",
