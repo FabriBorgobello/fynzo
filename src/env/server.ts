@@ -1,7 +1,5 @@
 import { z } from "zod/v4";
 
-import "server-only";
-
 const envSchema = z.object({
   DATABASE_URL: z.url(),
   MINIO_ENDPOINT: z.string(),

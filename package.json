@@ -17,6 +17,7 @@
     "rag:sync": "dotenv -e .env -- tsx src/services/ai/rag/sync.ts"
   },
   "dependencies": {
+    "@ai-sdk/deepseek": "^0.2.14",
     "@ai-sdk/mistral": "^1.2.8",
     "@ai-sdk/openai": "^1.3.22",
     "@ai-sdk/react": "^1.2.12",

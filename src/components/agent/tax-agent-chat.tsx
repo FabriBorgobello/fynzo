@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useChat } from "@ai-sdk/react";
-import { FileText, Send } from "lucide-react";
+import { File, FileText, Send, X } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -24,6 +25,8 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
       console.log("[TOOL CALL]", toolCall);
     },
   });
+  const [isDragActive, setIsDragActive] = useState(false);
+  const [files, setFiles] = useState<FileList | undefined>(undefined);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleQuickAction = (message: string) => {
@@ -31,6 +34,18 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
       role: "user",
       content: message,
     });
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragActive(true);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragActive(false);
+    const files = event.dataTransfer.files;
+    setFiles(files);
   };
 
   // Quick action templates
@@ -59,7 +74,19 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
 
   return (
     <Card className="w-full rounded-lg border p-0">
-      <div className="flex h-[600px] flex-col">
+      <div className="relative flex h-[600px] flex-col" onDragOver={handleDragOver} onDrop={handleDrop}>
+        <AnimatePresence>
+          {isDragActive && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute flex h-full w-full items-center justify-center bg-black/80"
+            >
+              <p className="text-white">Drop files here...</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-6">
             <div className="space-y-2 text-center">
@@ -107,7 +134,36 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
         )}
 
         <div className="flex-shrink-0 border-t p-4">
-          <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+          {files && (
+            <div className="mb-2 flex items-center space-x-2">
+              {Array.from(files).map((file) => (
+                <div
+                  key={file.name}
+                  className="text-muted-foreground flex items-center space-x-2 rounded-md border p-2"
+                >
+                  <File className="h-4 w-4" />
+                  <span className="text-xs">{file.name}</span>
+                  <X
+                    className="h-4 w-4 cursor-pointer"
+                    onClick={() => {
+                      const fileArray = Array.from(files);
+                      const filteredFiles = fileArray.filter((f) => f.name !== file.name);
+                      const dataTransfer = new DataTransfer();
+                      filteredFiles.forEach((file) => dataTransfer.items.add(file));
+                      setFiles(dataTransfer.files);
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <form
+            onSubmit={(e) => {
+              handleSubmit(e, { experimental_attachments: files });
+              setFiles(undefined);
+            }}
+            className="flex items-center space-x-2"
+          >
             <Input
               name="message"
               placeholder={dict.agent.inputPlaceholder}

@@ -1,4 +1,5 @@
 import type { Message } from "ai";
+import { File } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 
 import { Avatar } from "@/components/ui/avatar";
@@ -38,6 +39,19 @@ export function ChatMessage({ message, onMsg }: ChatMessageProps) {
             isUser ? "border-[#155dfc] bg-[#155dfc]/20" : "border-[#00a63e] bg-[#00a63e]/20",
           )}
         >
+          {/* ATTACHMENTS */}
+          {Boolean(message.experimental_attachments?.length) && (
+            <div className="mb-2 flex flex-col gap-1">
+              {message.experimental_attachments?.map((attachment) => (
+                <div key={attachment.url} className="flex items-center gap-2">
+                  <File className="h-3 w-3" />
+                  <span className="text-xs">{attachment.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* MESSAGE PARTS */}
           {message.parts?.map((part) => {
             switch (part.type) {
               case "text":
