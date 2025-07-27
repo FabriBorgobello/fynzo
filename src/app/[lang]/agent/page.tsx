@@ -1,6 +1,6 @@
-import { TaxAgentChat } from "@/components/agent/tax-agent-chat";
 import { PageHeader } from "@/components/ui/page-header";
 import { getDictionary, type Locale } from "@/dictionaries";
+import { TaxAgentChat } from "@/modules/agent/components/tax-agent-chat-new";
 
 export default async function AssistantPage({ params }: { params: Promise<{ lang: Locale }> }) {
   const { lang } = await params;

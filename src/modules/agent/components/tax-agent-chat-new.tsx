@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport, lastAssistantMessageIsCompleteWithToolCalls } from "ai";
 import { File, FileText, Send, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -10,45 +11,54 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Dictionary } from "@/dictionaries";
+import { brightBlue, brightRed } from "@/lib/logger";
+import { CustomUIMessage } from "@/modules/agent/types";
 
-import { ChatMessage } from "./chat-message";
+import { ChatMessageNew } from "./chat-message-new";
 import { QuickActionButton } from "./quick-action-button";
 
-interface TaxAgentChatProps {
-  dict: Dictionary;
-}
-
-export function TaxAgentChat({ dict }: TaxAgentChatProps) {
-  const { messages, input, handleInputChange, handleSubmit, status, append, addToolResult } = useChat({
-    api: "/api/chat",
+export function TaxAgentChat({ dict }: { dict: Dictionary }) {
+  const {
+    addToolResult,
+    messages,
+    sendMessage,
+    status,
+    //  error,
+    //  id,
+    //  regenerate,
+    //  resumeStream,
+    //  setMessages,
+    //  stop
+  } = useChat<CustomUIMessage>({
+    transport: new DefaultChatTransport({ api: "/api/chat" }),
+    sendAutomaticallyWhen: lastAssistantMessageIsCompleteWithToolCalls, // https://v5.ai-sdk.dev/cookbook/next/human-in-the-loop#intercept-tool-call
+    onData: (data) => {
+      console.log(`${brightBlue("[CHAT]")} - onData`, data);
+    },
+    onError: (error) => {
+      console.log(`${brightRed("[CHAT]")} - onError`, error);
+    },
     onToolCall: async ({ toolCall }) => {
-      console.log("[TOOL CALL]", toolCall);
+      console.log(`${brightBlue("[CHAT]")} - onToolCall`, toolCall);
     },
   });
-  const [isDragActive, setIsDragActive] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileList | undefined>(undefined);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const handleQuickAction = (message: string) => {
-    append({
-      role: "user",
-      content: message,
-    });
-  };
-
-  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+  const [isDragging, setIsDragging] = useState(false);
+  function handleDragOver(event: React.DragEvent<HTMLDivElement>) {
     event.preventDefault();
-    setIsDragActive(true);
-  };
-
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+  }
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
     event.preventDefault();
-    setIsDragActive(false);
-    const files = event.dataTransfer.files;
-    setFiles(files);
-  };
+    setFiles(event.dataTransfer.files);
+    setIsDragging(false);
+  }
 
-  // Quick action templates
+  function handleQuickAction(description: string) {
+    sendMessage({ text: description });
+  }
+
   const QUICK_ACTIONS = [
     {
       title: dict.agent.quickActions.taxDeductions.title,
@@ -75,8 +85,9 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
   return (
     <Card className="w-full rounded-lg border p-0">
       <div className="relative flex h-[600px] flex-col" onDragOver={handleDragOver} onDrop={handleDrop}>
+        {/* Dragging overlay */}
         <AnimatePresence>
-          {isDragActive && (
+          {isDragging && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -87,6 +98,7 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
             </motion.div>
           )}
         </AnimatePresence>
+        {/* Messages */}
         {messages.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center space-y-6 p-6">
             <div className="space-y-2 text-center">
@@ -107,33 +119,33 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
             </div>
           </div>
         ) : (
-          <div className="flex-1 overflow-auto p-4">
-            {messages.map((message, index) => (
-              <ChatMessage
-                key={index}
+          <div className="flex flex-col gap-4 p-4">
+            {messages.map((message) => (
+              <ChatMessageNew
+                key={message.id}
                 message={message}
-                onMsg={(msg) => {
-                  switch (msg.type) {
+                onMsg={(m) => {
+                  switch (m.type) {
                     case "onComunidadAutonomaChange":
+                      console.log(`${brightBlue("[CHAT]")} - onComunidadAutonomaChange`, m);
                       addToolResult({
-                        toolCallId: msg.toolCallId,
-                        result: msg.value,
+                        toolCallId: m.toolCallId,
+                        tool: "getComunidadAutonoma",
+                        output: { comunidadAutonoma: m.value },
                       });
                       break;
+
+                    default:
+                      m.type satisfies never;
+                      return;
                   }
                 }}
               />
             ))}
-            <div
-              ref={(el) => {
-                messagesEndRef.current = el;
-                el?.scrollIntoView({ behavior: "smooth" });
-              }}
-            />
           </div>
         )}
-
         <div className="flex-shrink-0 border-t p-4">
+          {/* Files */}
           {files && (
             <div className="mb-2 flex items-center space-x-2">
               {Array.from(files).map((file) => (
@@ -157,21 +169,21 @@ export function TaxAgentChat({ dict }: TaxAgentChatProps) {
               ))}
             </div>
           )}
+          {/* Input */}
           <form
-            onSubmit={(e) => {
-              handleSubmit(e, { experimental_attachments: files });
-              setFiles(undefined);
+            onSubmit={(event) => {
+              event.preventDefault();
+              const input = inputRef.current?.value ?? "";
+              if (input.trim()) {
+                sendMessage({ text: input, files });
+                inputRef.current!.value = "";
+                setFiles(undefined);
+              }
             }}
             className="flex items-center space-x-2"
           >
-            <Input
-              name="message"
-              placeholder={dict.agent.inputPlaceholder}
-              value={input}
-              onChange={handleInputChange}
-              className="flex-1"
-            />
-            <Button type="submit" size="icon" disabled={status === "streaming" || !input.trim()}>
+            <Input name="message" placeholder={dict.agent.inputPlaceholder} ref={inputRef} className="flex-1" />
+            <Button type="submit" size="icon" disabled={status === "streaming"}>
               <Send className="h-5 w-5" />
             </Button>
           </form>

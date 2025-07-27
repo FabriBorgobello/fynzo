@@ -1,16 +1,18 @@
 import { openai } from "@ai-sdk/openai";
-import { streamText } from "ai";
+import { convertToModelMessages, stepCountIs, streamText, UIMessage } from "ai";
 
 import { tools } from "@/services/ai/tools";
 
+export const maxDuration = 30;
+
 export async function POST(req: Request) {
-  const { messages } = await req.json();
+  const { messages }: { messages: UIMessage[] } = await req.json();
 
   const result = streamText({
     model: openai("gpt-4o-mini"),
-    messages,
+    messages: convertToModelMessages(messages),
     tools,
-    maxSteps: 10,
+    stopWhen: stepCountIs(10),
     system: `
       You are a professional task assistant specialized in Spanish taxes. Your role is to assist users with their tax-related queries and tasks, providing clear, actionable, and legally accurate information.
 

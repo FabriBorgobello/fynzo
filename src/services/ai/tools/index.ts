@@ -42,6 +42,9 @@ export const tools = {
           "question to be displayed to the user. e.g. '¿En qué comunidad autónoma estás?' / 'In which autonomous community are you?'",
         ),
     }),
+    outputSchema: z.object({
+      comunidadAutonoma: z.string().describe("the comunidad autónoma (autonomous community) to the user."),
+    }),
   }),
 
   // Get the links and descriptions to access the specific form's website.
