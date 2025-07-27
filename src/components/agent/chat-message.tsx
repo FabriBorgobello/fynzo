@@ -1,4 +1,4 @@
-import type { Message } from "ai";
+import type { UIMessage } from "ai";
 import { File } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 
@@ -12,7 +12,7 @@ import { DocumentLinkCard } from "./document-link-card";
 import { MemoizedMarkdown } from "./memoized-markdown";
 
 interface ChatMessageProps {
-  message: Message;
+  message: UIMessage;
   onMsg: (msg: ComunidadesSelectorMsg) => void;
 }
 

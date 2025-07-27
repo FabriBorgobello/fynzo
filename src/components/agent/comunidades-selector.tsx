@@ -1,7 +1,7 @@
 "use client";
 
-import { ToolInvocationUIPart } from "@ai-sdk/ui-utils";
 import { useQuery } from "@tanstack/react-query";
+import { ToolInvocationUIPart } from "ai";
 
 import {
   Select,
