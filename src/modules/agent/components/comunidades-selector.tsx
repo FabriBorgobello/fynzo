@@ -48,14 +48,14 @@ export function ComunidadesSelector({
   if (status === "error")
     return (
       <div className="flex flex-col gap-2">
-        {/* <p>{part.input.question}</p> */}
+        {part.input?.question && <p>{part.input.question}</p>}
         <p className="text-red-600">Error</p>
       </div>
     );
 
   return (
     <div className="flex flex-col gap-2">
-      {/* <p>{part.args.question}</p> */}
+      {part.input?.question && <p>{part.input.question}</p>}
       <Select
         onValueChange={(value) => onMsg({ type: "onComunidadAutonomaChange", toolCallId, value })}
         disabled={disabled}
