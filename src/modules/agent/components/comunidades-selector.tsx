@@ -1,7 +1,7 @@
 "use client";
 
-import { ToolInvocationUIPart } from "@ai-sdk/ui-utils";
 import { useQuery } from "@tanstack/react-query";
+import { ToolUIPart } from "ai";
 
 import {
   Select,
@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CustomTools } from "@/modules/agent/types";
 
 export type ComunidadesSelectorMsg = { type: "onComunidadAutonomaChange"; toolCallId: string; value: string };
 
@@ -29,11 +30,15 @@ async function getComunidadesAutonomas(): Promise<string[]> {
 export function ComunidadesSelector({
   part,
   onMsg,
+  disabled,
+  defaultValue,
 }: {
-  part: ToolInvocationUIPart;
+  part: Extract<ToolUIPart<CustomTools>, { type: "tool-getComunidadAutonoma" }>;
   onMsg: (msg: ComunidadesSelectorMsg) => void;
+  disabled?: boolean;
+  defaultValue?: string;
 }) {
-  const toolCallId = part.toolInvocation.toolCallId;
+  const toolCallId = part.toolCallId;
   const { data: comunidades, status } = useQuery({
     queryKey: ["comunidades-autonomas"],
     queryFn: () => getComunidadesAutonomas(),
@@ -43,16 +48,20 @@ export function ComunidadesSelector({
   if (status === "error")
     return (
       <div className="flex flex-col gap-2">
-        <p>{part.toolInvocation.args.question}</p>
+        {part.input?.question && <p>{part.input.question}</p>}
         <p className="text-red-600">Error</p>
       </div>
     );
 
   return (
     <div className="flex flex-col gap-2">
-      <p>{part.toolInvocation.args.question}</p>
-      <Select onValueChange={(value) => onMsg({ type: "onComunidadAutonomaChange", toolCallId, value })}>
-        <SelectTrigger className="text-primary w-full bg-white">
+      {part.input?.question && <p>{part.input.question}</p>}
+      <Select
+        onValueChange={(value) => onMsg({ type: "onComunidadAutonomaChange", toolCallId, value })}
+        disabled={disabled}
+        defaultValue={defaultValue}
+      >
+        <SelectTrigger className="text-primary w-full bg-white" disabled={disabled}>
           <SelectValue placeholder="Selecciona una comunidad autónoma" />
         </SelectTrigger>
         <SelectContent>

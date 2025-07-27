@@ -12,7 +12,7 @@ export const tools = {
   // Get relevant context from the knowledge base (RAG)
   getRelevantContext: tool({
     description: `get information from your knowledge base to answer questions.`,
-    parameters: z.object({ question: z.string().describe("the users question") }),
+    inputSchema: z.object({ question: z.string().describe("the users question") }),
     execute: async ({ question }) => {
       // 1. Embed the question
       const { embedding } = await embed({
@@ -35,19 +35,22 @@ export const tools = {
   // Request the comunidad autónoma (autonomous community) to the user.
   getComunidadAutonoma: tool({
     description: `request the comunidad autónoma (autonomous community) to the user.`,
-    parameters: z.object({
+    inputSchema: z.object({
       question: z
         .string()
         .describe(
           "question to be displayed to the user. e.g. '¿En qué comunidad autónoma estás?' / 'In which autonomous community are you?'",
         ),
     }),
+    outputSchema: z.object({
+      comunidadAutonoma: z.string().describe("the comunidad autónoma (autonomous community) to the user."),
+    }),
   }),
 
   // Get the links and descriptions to access the specific form's website.
   getFormsLinks: tool({
     description: `get the link to access one or multiple forms. Use this tool when the user asks for the link to access a specific form.`,
-    parameters: z.object({
+    inputSchema: z.object({
       forms: z
         .array(availableFormsSchema)
         .describe("the names of the forms to access as strings. e.g. '100', '130', '036'"),
